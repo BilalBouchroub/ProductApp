@@ -1,4 +1,4 @@
-# ProductApp — Instructions pour Codex
+# ProductApp —
 
 ## Présentation du projet
 
