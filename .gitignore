@@ -21,3 +21,6 @@
 # Système
 .DS_Store
 Thumbs.db
+
+# Fichier local 
+AGENTS.md
