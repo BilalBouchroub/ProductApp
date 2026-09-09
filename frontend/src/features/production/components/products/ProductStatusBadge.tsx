@@ -1,0 +1,4 @@
+import { StatusBadge } from '../../../../components/common/StatusBadge'
+import type { ProductStatus } from '../../types/production.types'
+const config: Record<ProductStatus, { label: string; tone: 'neutral'|'info'|'success'|'warning'|'danger' }> = { Draft: { label: 'Brouillon', tone: 'neutral' }, InConfiguration: { label: 'Configuration', tone: 'info' }, InExperiment: { label: 'Expérimentation', tone: 'warning' }, ReadyForMarketStudy: { label: 'Prêt pour étude', tone: 'success' }, UnderMarketStudy: { label: 'Étude en cours', tone: 'info' }, Approved: { label: 'Approuvé', tone: 'success' }, ToOptimize: { label: 'À optimiser', tone: 'warning' }, Rejected: { label: 'Rejeté', tone: 'danger' }, Archived: { label: 'Archivé', tone: 'neutral' } }
+export function ProductStatusBadge({ status }: { status: ProductStatus }) { const item = config[status]; return <StatusBadge label={item.label} tone={item.tone} /> }

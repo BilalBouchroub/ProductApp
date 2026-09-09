@@ -1,0 +1,4 @@
+import { Modal } from '../../../../components/ui/Modal'
+import { Button } from '../../../../components/ui/Button'
+import type { CommercialProductView } from '../../types/commercial.types'
+export function StartMarketStudyDialog({view,open,onClose,onStart}:{view:CommercialProductView|null;open:boolean;onClose:()=>void;onStart:()=>void}){return <Modal open={open} onClose={onClose} title={view?.study?'Continuer l’étude':'Démarrer une étude de marché'} footer={<><Button variant="secondary" onClick={onClose}>Annuler</Button><Button onClick={onStart}>{view?.study?'Continuer':'Démarrer'}</Button></>}><p className="text-sm leading-6 text-slate-600">{view?.study?`Reprendre « ${view.study.studyName} » au dernier brouillon enregistré.`:`Créer une étude complète pour ${view?.product.name??'ce produit'} v${view?.product.version??''}. Les données de production seront reprises automatiquement.`}</p></Modal>}

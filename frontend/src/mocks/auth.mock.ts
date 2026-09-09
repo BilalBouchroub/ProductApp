@@ -1,0 +1,3 @@
+import type { AuthUser, LoginInput, UserRole } from '../types/auth'
+const roleProfiles:Record<UserRole,Pick<AuthUser,'id'|'name'|'initials'>>={Administrator:{id:'usr-001',name:'Amine El Mansouri',initials:'AE'},ProductionManager:{id:'usr-002',name:'Salma Benali',initials:'SB'},CommercialManager:{id:'usr-003',name:'Youssef Alaoui',initials:'YA'}}
+export function createMockUser(input:LoginInput):AuthUser{const role:UserRole=input.email.includes('commercial')?'CommercialManager':input.email.includes('admin')?'Administrator':'ProductionManager';const profile=roleProfiles[role];return{...profile,email:input.email,role}}

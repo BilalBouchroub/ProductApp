@@ -1,0 +1,13 @@
+import { Copy } from 'lucide-react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'sonner'
+import { PageHeader } from '../../../components/common/PageHeader'
+import { Button } from '../../../components/ui/Button'
+import { ErrorState } from '../../../components/ui/ErrorState'
+import { LoadingSkeleton } from '../../../components/ui/LoadingSkeleton'
+import { ExperimentResultBadge } from '../components/experiments/ExperimentResultBadge'
+import { ExperimentStepsTimeline } from '../components/experiments/ExperimentStepsTimeline'
+import { PlannedVsActualComparison } from '../components/experiments/PlannedVsActualComparison'
+import { useProductionExperiment, useExperimentMutations } from '../hooks/useProductionExperiments'
+import { formatProductionDate } from '../utils/productionFormatters'
+export function ExperimentDetailsPage(){const {id=''}=useParams();const query=useProductionExperiment(id);const {duplicate}=useExperimentMutations();const navigate=useNavigate();if(query.isLoading)return <LoadingSkeleton lines={8}/>;const e=query.data;if(!e)return <ErrorState title="Expérience introuvable" description="Cet essai n’existe pas."/>;return <div className="space-y-6"><PageHeader eyebrow={`${e.productName} · v${e.productVersion}`} title={e.name} description={`${formatProductionDate(e.startDate)} · ${e.managerName}`} actions={<Button variant="secondary" onClick={()=>duplicate.mutate(id,{onSuccess:x=>{toast.success('Expérience dupliquée.');navigate(`/production/experiments/${x.id}`)}})}><Copy className="size-4"/>Dupliquer</Button>}/><div className="grid gap-5 lg:grid-cols-[1fr_320px]"><section className="surface-card p-5"><div className="flex items-center justify-between"><h2 className="font-bold">Comparaison prévu / réel</h2><ExperimentResultBadge result={e.result}/></div><PlannedVsActualComparison experiment={e}/></section><aside className="surface-card p-5"><h2 className="font-bold">Analyse</h2><dl className="mt-4 space-y-4 text-sm"><div><dt className="text-slate-400">Objectif</dt><dd className="mt-1 text-slate-700">{e.objective||'À renseigner'}</dd></div><div><dt className="text-slate-400">Hypothèse</dt><dd className="mt-1 text-slate-700">{e.hypothesis||'À renseigner'}</dd></div><div><dt className="text-slate-400">Observations</dt><dd className="mt-1 text-slate-700">{e.observations||'À renseigner'}</dd></div><div><dt className="text-slate-400">Conclusion</dt><dd className="mt-1 text-slate-700">{e.conclusion||'À renseigner'}</dd></div></dl></aside></div><section className="surface-card p-5"><h2 className="mb-4 font-bold">Exécution des étapes</h2><ExperimentStepsTimeline steps={e.stepResults}/></section></div>}

@@ -1,0 +1,7 @@
+import { FilterBar } from '../../../../components/common/FilterBar'
+import { SearchInput } from '../../../../components/common/SearchInput'
+import { Input } from '../../../../components/ui/Input'
+import { Select } from '../../../../components/ui/Select'
+import { EXPERIMENT_RESULTS, type Product } from '../../types/production.types'
+export interface ExperimentFilterValue{search:string;productId:string;result:string;from:string;to:string}
+export function ExperimentFilters({value,products,onChange}:{value:ExperimentFilterValue;products:Product[];onChange:(v:ExperimentFilterValue)=>void}){return <FilterBar activeCount={Object.values(value).filter(Boolean).length} onReset={()=>onChange({search:'',productId:'',result:'',from:'',to:''})}><SearchInput value={value.search} onChange={search=>onChange({...value,search})} placeholder="Rechercher une expérience…"/><Select aria-label="Produit" value={value.productId} onChange={e=>onChange({...value,productId:e.target.value})} options={[{label:'Tous les produits',value:''},...products.map(p=>({label:p.name,value:p.id}))]}/><Select aria-label="Résultat" value={value.result} onChange={e=>onChange({...value,result:e.target.value})} options={[{label:'Tous les résultats',value:''},...EXPERIMENT_RESULTS.map(x=>({label:x,value:x}))]}/><Input aria-label="Du" type="date" value={value.from} onChange={e=>onChange({...value,from:e.target.value})}/><Input aria-label="Au" type="date" value={value.to} onChange={e=>onChange({...value,to:e.target.value})}/></FilterBar>}

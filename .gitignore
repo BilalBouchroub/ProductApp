@@ -1,0 +1,23 @@
+# Secrets et fichiers locaux
+.env
+.env.*
+!.env.example
+
+# .NET
+**/bin/
+**/obj/
+
+# Frontend
+**/node_modules/
+**/dist/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Système
+.DS_Store
+Thumbs.db

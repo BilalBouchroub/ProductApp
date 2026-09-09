@@ -1,0 +1,3 @@
+import { CheckCircle2 } from 'lucide-react'
+import type { ExperimentStepResult } from '../../types/production.types'
+export function ExperimentStepsTimeline({steps}:{steps:ExperimentStepResult[]}){if(!steps.length)return <p className="rounded-xl bg-slate-50 p-5 text-sm text-slate-500">Les valeurs réelles par étape seront disponibles après exécution de l’essai.</p>;return <ol className="space-y-4">{steps.map((s)=><li key={s.stepId} className="flex gap-3"><CheckCircle2 className="mt-0.5 size-5 text-emerald-500"/><div><strong>{s.stepName}</strong><p className="text-sm text-slate-500">{s.plannedDuration} → {s.actualDuration} min · {s.plannedCost} → {s.actualCost} MAD</p></div></li>)}</ol>}

@@ -1,0 +1,3 @@
+import { AlertTriangle, CheckCircle2 } from 'lucide-react'
+import type { ProcessValidationIssue } from '../../types/production.types'
+export function ProcessValidationPanel({issues}:{issues:ProcessValidationIssue[]}){return <section className="surface-card p-5"><h2 className="flex items-center gap-2 font-bold text-slate-900">{issues.length?<AlertTriangle className="size-5 text-amber-500"/>:<CheckCircle2 className="size-5 text-emerald-500"/>}Validation de la gamme</h2>{issues.length?<ul className="mt-3 space-y-2">{issues.map((i)=><li key={i.id} className="rounded-lg bg-amber-50 p-2 text-xs text-amber-800">{i.message}</li>)}</ul>:<p className="mt-2 text-sm text-emerald-700">Tous les champs obligatoires sont renseignés.</p>}</section>}

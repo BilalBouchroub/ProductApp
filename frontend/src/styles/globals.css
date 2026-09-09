@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@import "./theme.css";
+
+* { box-sizing: border-box; }
+html { min-width: 320px; scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; min-height: 100vh; background: var(--color-canvas); }
+button, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid rgba(37, 99, 235, .35); outline-offset: 2px; }
+::selection { background: var(--color-brand-100); color: var(--color-brand-700); }
+
+@keyframes step-details-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dashboard-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-details-enter { animation: step-details-enter .28s ease-out; }
+.dashboard-enter { animation: dashboard-enter .45s cubic-bezier(.22, 1, .36, 1) both; }
+
+@layer components {
+  .surface-card { @apply rounded-2xl border border-slate-200 bg-white shadow-sm; }
+  .field-label { @apply mb-1.5 block text-sm font-medium text-slate-700; }
+  .field-control { @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 hover:border-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}

@@ -1,0 +1,6 @@
+import { FilterBar } from '../../../../components/common/FilterBar'
+import { SearchInput } from '../../../../components/common/SearchInput'
+import { Select } from '../../../../components/ui/Select'
+import { PRODUCT_STATUSES } from '../../types/production.types'
+export interface ProductFilterValue { search: string; status: string; category: string }
+export function ProductFilters({ value, categories, onChange }: { value: ProductFilterValue; categories: string[]; onChange: (value: ProductFilterValue) => void }) { return <FilterBar activeCount={[value.search,value.status,value.category].filter(Boolean).length} onReset={() => onChange({ search:'',status:'',category:'' })}><div className="min-w-56 flex-1"><SearchInput value={value.search} onChange={(search) => onChange({ ...value, search })} placeholder="Nom, référence ou code SAP…" /></div><Select aria-label="Statut" value={value.status} onChange={(event) => onChange({ ...value,status:event.target.value })} options={[{label:'Tous les statuts',value:''},...PRODUCT_STATUSES.map((s)=>({label:s,value:s}))]} className="min-w-44"/><Select aria-label="Catégorie" value={value.category} onChange={(event) => onChange({ ...value,category:event.target.value })} options={[{label:'Toutes les catégories',value:''},...categories.map((s)=>({label:s,value:s}))]} className="min-w-44"/></FilterBar> }

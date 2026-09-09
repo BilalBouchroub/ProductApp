@@ -1,0 +1,12 @@
+import type { ColumnDef } from '@tanstack/react-table'
+import { Eye, Plus } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { DataTable } from '../../../components/common/DataTable'
+import { PageHeader } from '../../../components/common/PageHeader'
+import { StatusBadge } from '../../../components/common/StatusBadge'
+import { Button } from '../../../components/ui/Button'
+import { useMarketStudies } from '../hooks/useMarketStudies'
+import type { MarketStudy } from '../types/commercial.types'
+import { RecommendationBadge } from '../components/results/RecommendationBadge'
+import { formatProductionDate } from '../../production/utils/productionFormatters'
+export function MarketStudiesPage(){const q=useMarketStudies();const columns:ColumnDef<MarketStudy>[]=[{accessorKey:'studyName',header:'Étude',cell:({row})=><div><strong className="text-slate-900">{row.original.studyName}</strong><p className="text-xs text-slate-400">Produit {row.original.productId} · v{row.original.productVersion}</p></div>},{accessorKey:'status',header:'Statut',cell:({getValue})=><StatusBadge label={getValue<string>()} tone={getValue()==='Validated'?'success':'info'}/>},{id:'score',header:'Score',cell:({row})=>row.original.feasibility?`${row.original.feasibility.globalScore}/100`:'—'},{id:'recommendation',header:'Recommandation',cell:({row})=>row.original.feasibility?<RecommendationBadge recommendation={row.original.feasibility.recommendation}/>:<StatusBadge label="En cours"/>},{accessorKey:'updatedAt',header:'Mise à jour',cell:({getValue})=>formatProductionDate(getValue<string>())},{id:'actions',header:'',cell:({row})=><Link to={`/commercial/studies/${row.original.id}`}><Button size="icon" variant="ghost"><Eye className="size-4"/></Button></Link>}];return <div className="space-y-6"><PageHeader eyebrow="Analyses commerciales" title="Études de marché" description="Brouillons, études en cours et décisions validées." actions={<Link to="/commercial/products"><Button><Plus className="size-4"/>Nouvelle étude</Button></Link>}/><DataTable data={q.data??[]} columns={columns} loading={q.isLoading} pageSize={8} emptyTitle="Aucune étude"/></div>}

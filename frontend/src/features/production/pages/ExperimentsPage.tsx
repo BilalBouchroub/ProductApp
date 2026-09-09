@@ -1,0 +1,12 @@
+import { GitCompare, Plus } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { toast } from 'sonner'
+import { PageHeader } from '../../../components/common/PageHeader'
+import { Button } from '../../../components/ui/Button'
+import { ExperimentComparisonDialog } from '../components/experiments/ExperimentComparisonDialog'
+import { ExperimentFilters, type ExperimentFilterValue } from '../components/experiments/ExperimentFilters'
+import { ExperimentTable } from '../components/experiments/ExperimentTable'
+import { useProductionExperiments, useExperimentMutations } from '../hooks/useProductionExperiments'
+import { useProductionProducts } from '../hooks/useProductionProducts'
+export function ExperimentsPage(){const query=useProductionExperiments();const products=useProductionProducts();const {duplicate}=useExperimentMutations();const [compare,setCompare]=useState(false);const [filters,setFilters]=useState<ExperimentFilterValue>({search:'',productId:'',result:'',from:'',to:''});const data=useMemo(()=>query.data?.filter(e=>(!filters.search||`${e.name} ${e.productName}`.toLowerCase().includes(filters.search.toLowerCase()))&&(!filters.productId||e.productId===filters.productId)&&(!filters.result||e.result===filters.result)&&(!filters.from||e.startDate>=filters.from)&&(!filters.to||e.startDate<=`${filters.to}T23:59`))??[],[query.data,filters]);return <div className="space-y-6"><PageHeader eyebrow="Essais industriels" title="Expériences de production" description="Créez, suivez et comparez les essais menés sur les versions produit." actions={<><Button variant="secondary" onClick={()=>setCompare(true)}><GitCompare className="size-4"/>Comparer</Button><Link to="/production/experiments/new"><Button><Plus className="size-4"/>Nouvelle expérience</Button></Link></>}/><ExperimentFilters value={filters} products={products.data??[]} onChange={setFilters}/><ExperimentTable data={data} loading={query.isLoading} onDuplicate={id=>duplicate.mutate(id,{onSuccess:()=>toast.success('Expérience dupliquée.'),onError:e=>toast.error(e.message)})}/><ExperimentComparisonDialog open={compare} experiments={data} onClose={()=>setCompare(false)}/></div>}

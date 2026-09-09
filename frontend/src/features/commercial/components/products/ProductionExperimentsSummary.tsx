@@ -1,0 +1,12 @@
+import { Clock3, Coins, Target } from 'lucide-react'
+import { ExperimentResultBadge } from '../../../production/components/experiments/ExperimentResultBadge'
+import type { ProductionExperiment } from '../../../production/types/production.types'
+import { formatCurrency, formatProductionDate } from '../../../production/utils/productionFormatters'
+
+export function ProductionExperimentsSummary({ experiments }: { experiments: ProductionExperiment[] }) {
+  if (!experiments.length) return <p className="rounded-xl bg-slate-50 p-5 text-sm text-slate-500">Aucune expérience enregistrée pour cette version.</p>
+  return <div className="grid gap-4 lg:grid-cols-2">{experiments.map(experiment => <article key={experiment.id} className="rounded-2xl border border-slate-200 p-5"><div className="flex items-start justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-wide text-blue-600">{formatProductionDate(experiment.startDate)}</p><h3 className="mt-1 font-bold text-slate-950">{experiment.name}</h3></div><ExperimentResultBadge result={experiment.result} /></div>
+    <div className="mt-4 grid grid-cols-3 gap-2"><div className="rounded-xl bg-slate-50 p-3"><Coins className="size-4 text-slate-400" /><p className="mt-1 text-[10px] uppercase text-slate-400">Coût réel</p><p className="text-xs font-bold">{formatCurrency(experiment.actualCost)}</p></div><div className="rounded-xl bg-slate-50 p-3"><Clock3 className="size-4 text-slate-400" /><p className="mt-1 text-[10px] uppercase text-slate-400">Durée réelle</p><p className="text-xs font-bold">{experiment.actualDuration || '—'} min</p></div><div className="rounded-xl bg-slate-50 p-3"><Target className="size-4 text-slate-400" /><p className="mt-1 text-[10px] uppercase text-slate-400">Perte</p><p className="text-xs font-bold">{experiment.wasteRate}%</p></div></div>
+    <div className="mt-4 space-y-3 text-sm"><div><p className="text-xs font-semibold text-slate-400">Objectif</p><p className="mt-1 leading-5 text-slate-600">{experiment.objective || 'Non renseigné'}</p></div><div><p className="text-xs font-semibold text-slate-400">Hypothèse</p><p className="mt-1 leading-5 text-slate-600">{experiment.hypothesis || 'Non renseignée'}</p></div><div><p className="text-xs font-semibold text-slate-400">Conclusion</p><p className="mt-1 leading-5 text-slate-600">{experiment.conclusion || 'Non renseignée'}</p></div></div>
+  </article>)}</div>
+}

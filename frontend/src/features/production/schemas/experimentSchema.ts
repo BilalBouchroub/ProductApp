@@ -1,0 +1,4 @@
+import { z } from 'zod'
+import { EXPERIMENT_RESULTS } from '../types/production.types'
+export const experimentSchema = z.object({ name: z.string().trim().min(3, 'Le nom est obligatoire.'), productId: z.string().min(1, 'Sélectionnez un produit.'), productVersion: z.coerce.number().int().positive(), startDate: z.string().min(1, 'La date de début est obligatoire.'), endDate: z.string().nullable(), objective: z.string().trim().min(10, 'Précisez l’objectif.'), hypothesis: z.string().trim().min(10, 'Précisez l’hypothèse.'), plannedQuantity: z.coerce.number().positive(), actualQuantity: z.coerce.number().min(0), plannedCost: z.coerce.number().min(0), actualCost: z.coerce.number().min(0), plannedDuration: z.coerce.number().min(0), actualDuration: z.coerce.number().min(0), wasteRate: z.coerce.number().min(0).max(100), result: z.enum(EXPERIMENT_RESULTS), observations: z.string(), conclusion: z.string() })
+export type ExperimentFormValues = z.infer<typeof experimentSchema>
